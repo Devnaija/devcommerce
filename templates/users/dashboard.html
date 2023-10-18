@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+{% block title %} Dashboard Page {% endblock title %}
+
+{% block content %}
+
+<section id="register">
+    <div class="container my-4">
+        <div class="row">
+            <div class="col-md-4 mx-auto">
+                <div class="card">
+                    {% if user.profile_pix %}
+                    <div class="overflow-hidden h-25 w-25 rounded-circle  border border-black mx-auto text-center">
+                        <img src="{{user.profile_pix.url}}" width="50" height="50" alt="" class="img-fluid">
+                    </div>
+                      {% else %}
+                      <img src={% static 'image/avar.png' %} alt="{{user.username}}">
+                    {% endif %}
+
+                    <ul class="list-group my-3">
+                        <li class="list-group-item"><strong>Fullname:</strong>{{user.fullname}}</li>
+                        <li class="list-group-item"><strong>Username:</strong>{{user.username}}</li>
+                        <li class="list-group-item"><strong>Sex:</strong>{{user.sex}}</li>
+                    </ul>
+                    
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header display-5">My Orders</div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>SN</th>
+                                        <th>Order ID</th>
+                                        <th>Order By</th>
+                                        <th>Email</th>
+                                        <th>Amount</th>
+                                        <th>Order Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for order in order %}
+                                    <tr>
+                                        <td>{{forloop.counter}}</td>
+                                        <td>DEV-GO-{{order.id}}</td>
+                                        <td>{{order.order_by}}</td>
+                                        <td>{{order.email}}</td>
+                                        <td>&#8358; {{order.amount |intcomma}}</td>
+                                        {% if order.order_status == 'pending' %}
+                                        <td style="color:red;"><i class="bi bi-hourglass-split"></i> {{order.order_status}}</td>
+                                        {% elif order.order_status == 'payment received' %}
+                                        <td style="color:green;"><i class="bi bi-credit-card"></i> {{order.order_status}}</td>  
+                                        {% elif order.order_status == 'order shipped' %}
+                                        <td style="color:green;"> <i class="bi bi-truck"></i> {{order.order_status}}</td>  
+                                        {% endif %}
+                                        
+                                    
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock content %}

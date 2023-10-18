@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block title %} Registration Page {% endblock title %}
+
+{% block content %}
+
+<section id="register">
+    <div class="container my-4">
+        <div class="row">
+            <div class="col-md-5 mx-auto">
+                <div class="card">
+                    <div class="card-header display-6">Register Here <i class="bi bi-signin"></i></div>
+                    <div class="card-body">
+                        <form action="" enctype="multipart/form-data" method="post">
+                            {% csrf_token %}
+                            {{forms.as_p}}
+
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-dark">Register</button>
+                            </div>
+                            <div class="text-center my-3">
+                                <span><a href="{% url 'login' %}" class="text-dark text-decoration-none">Already have an account? <u>Login</u></a></span>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock content %}

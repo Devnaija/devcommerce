@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{% block title %}
+  Home Page
+{% endblock title %}
+{% block content %}
+
+<!-- slider -->
+<section id="slider">
+    {% if sliders %}
+        <!-- Carousel -->
+        <div id="demo" class="carousel slider" data-bs-ride="carousel">
+
+            <!-- Indicators/dots -->
+            <div class="carousel-indicators">
+            <button type="button" data-bs-target="#demo" data-bs-slide-to="0" class="active"></button>
+            <button type="button" data-bs-target="#demo" data-bs-slide-to="1"></button>
+            <button type="button" data-bs-target="#demo" data-bs-slide-to="2"></button>
+            </div>
+        
+            <!-- The slideshow/carousel -->
+            <div class="carousel-inner">
+                {% for slider in sliders  %}
+            <div class="carousel-item {% if forloop.first %} active {% endif %}">
+                <img src="{{slider.image.url}}" alt="Los Angeles" class="d-block w-100 img-fluid" height="200">
+            </div>
+            {% endfor %}
+            </div>
+        
+            <!-- Left and right controls/icons -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#demo" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#demo" data-bs-slide="next">
+            <span class="carousel-control-next-icon"></span>
+            </button>
+        </div>
+      
+    {% else %}
+        <p class="lead bg-danger text-white text-center py-3">No Slider Image Added Yet!</p>
+    {% endif %}
+    
+
+</section>
+
+<!-- categories -->
+<section id="category" class="my-4">
+    <div class="container">
+        <div class="intro text-center mb-5">
+            <h4 class="display-5">Category</h4>
+            <p class="lead">Go through our products base on category</p>
+        </div>
+        <div class="row">
+           {% if categorys %}
+                {% for category in categorys %}
+                <div class="col-md-3">
+                    <a href="{% url 'category' category.id %}" class="text-decoration-none text-dark">
+                        <div class="border border-black w-75 h-75 overflow-hidden rounded-circle relative">
+                            <img src="{{category.image.url}}" alt="{{category.name}}" class="img-fluid absolute top-10" height="200" width="200">
+                        </div>
+                        <p class="lead">{{category.name}}</p>
+                    </a>
+                </div>
+                {% endfor %}
+           {% else %}
+             <p class="lead text-white bg-danger text-center py-4">
+                No Products base on category yet!
+             </p>
+           {% endif %}
+           
+        </div>
+    </div>
+</section>
+
+<!-- products -->
+<section id="products" class="my-4">
+    <div class="container">
+        <div class="intro text-center mb-5">
+            <h4 class="display-5">Latest Products</h4>
+            <p class="lead">Go through our products base on recent items</p>
+            <div class="w-100 text-end">
+                <a href="{% url 'stores' %}" class="btn btn-dark mt-5">View All Product</a>
+            </div>
+        </div>
+
+        <div class="row">
+            {% if products %}
+                {% for product in products %}
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-img">
+                                <img src="{{product.image.url}}" alt="{{product.title}}" class="img-fluid" height="350" width="350">
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+              <p class="lead text-white bg-danger text-center py-4">No Products In the Database Yet!</p>
+            {% endif %}
+        </div>
+       
+    </div>
+</section>
+
+{% endblock content %}

@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% block title %}My Cart{% endblock title %}
+
+{% block content %}
+  <section id="mycart">
+    <div class="container my-3">
+      <div class="intro text-center mb-5">
+        <h4 class="display-5">My Cart</h4>
+    </div>
+      <div class="row">
+        <div class="col-md-7 mx-auto">
+          {% if cart %}
+            <div class="table-responsive">
+              <table class="table table-primary table-hover">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">S/N</th>
+                    <th scope="col">Image</th>
+                    <th scope="col">Product</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Quantiy</th>
+                    <th scope="col">Subtotal</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for product in cart.cartproduct_set.all %}
+                    <tr>
+                      <td> <a href="{% url 'manage' product.id %}?action=rmv" class="text-decoration-none text-dark"><i class="bi bi-trash"></i></a>
+                      </td>
+                      <td>{{forloop.counter}}</td>
+                      <td><img src="{{product.product.image.url}}" alt="{{product.product.title}}" width="50" class="img-thumbnail"></td>
+                      <td>{{product.product.title}}</td>
+                      <td> &#8358; {{product.product.price |intcomma}}</td>
+                      <td class="">
+                        <a href="{% url 'manage' product.id %}?action=inc" class="text-decoration-none text-dark"><i class="bi bi-caret-up-fill"></i></a>
+                        {{product.quantity}}
+                        <a href="{% url 'manage' product.id %}?action=dcr" class="text-decoration-none text-dark"><i class="bi bi-caret-down-fill"></i></a>
+                        </td>
+                      <td> &#8358; {{product.subtotal |intcomma}}</td>
+                    </tr>
+                  {% endfor %}
+                  <tr>
+                    <td><h3>Total:</h3></td>
+                    <td colspan="6">
+                      <h3 class="text-end fw-bold">&#8358; {{cart.total |intcomma}}</h3>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    {% if cart.cartproduct_set.all %}
+                      
+                    <td colspan="3">
+                      <a href="{% url 'stores' %}" class="btn btn-success">Continue Shopping</a>
+                    </td>
+                    <td colspan="4">
+                      <a href="{% url 'checkout' %}" class="btn btn-info">Process to Checkout</a>
+                    </td>
+                    {% else %}
+                      
+                    <td colspan="3">
+                      <a href="{% url 'stores' %}" class="btn btn-success">Continue Shopping</a>
+                    </td>
+                    <td colspan="4">
+                      <button type="button" disabled class="btn btn-info">Process to Checkout</button>
+                    </td>
+                    {% endif %}
+                    
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            
+          {% else %}
+            <p class="lead py-3 text-white text-center bg-danger">No item in your cart</p>
+          {% endif %}
+          
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+{% endblock content %}

@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% block title %}
+  Search Page
+{% endblock title %}
+{% block content %}
+<section id="stores" class="my-5">
+    <div class="container">
+        <div class="row g-3">
+            {% if output %}
+                {% for product in output %} 
+                    <div class="col-md-4">
+                        <div class="card">
+                           <img src="{{product.image.url}}" alt="{{product.title}}" height="200">
+                           <div class="card-body">
+                                <h4 class="text-center">{{product.title | title}}</h4>
+                                <p class="lead">{{product.description | truncatewords:5}}</p>
+                                <h5 class="display-4"> &#8358; {{product.price |intcomma }}</h5>
+                           </div>
+                           <div class="card-footer">
+                                <div class="d-flex justify-content-between">
+                                    <a href="{% url 'store' product.id %}" class="btn btn-success">Read More</a>
+                                    <a href="{% url 'addtocart' product.id %}" class="btn btn-info">Add to Cart</a>
+                                </div>
+                           </div>
+                        </div>
+                    </div>
+                {% endfor %}
+
+              
+            {% else %}
+              
+                <p class="lead text-white bg-danger text-center py-4 mt-5">
+                    No Products Match
+                </p>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endblock content %}
